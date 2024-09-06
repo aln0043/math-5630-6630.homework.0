@@ -1,4 +1,4 @@
-% Author: Your Name / your_email
+% Author: Andrew Nelson / aln0043@auburn.edu
 % Date: 2024-09-01
 % Assignment Name: hw00
 
@@ -8,37 +8,50 @@
 classdef hw00 
     methods (Static)
 
-        function a_m = p1(m)
-            % This function takes an integer m and returns the term a_m in the sequence defined by 
-            % a_0 = 0, a_1 = 1, a_2 = 1, and a_n = a_{n-1} + a_{n-2} + a_{n-3} for n >= 3.
-            % :param m: an integer
-            % :return: the m-th term in the sequence
-
-            if m < 0
-                error('m must be a non-negative integer')
+        function [am] = p1(n)
+           
+            if n < 0
+                error('n must be a non-negative integer')
+            elseif n == 0
+                am = 0;
+            elseif n == 1
+                am = 1;
+            elseif n == 2
+                am = 1;
             else 
-                a_m = inf; % Write your code here
+                am = p1(n-1) + p1(n-2) + p1(n-3);
             end
-
+            
         end
 
         function det_A = p2(A)
-            % This function takes a matrix A of size n x n and returns the determinant of A.
-            % :param A: a matrix of size n x n
-            % :return: the determinant of A
+           
+            [~,n] = size(A);
 
             if size(A,1) ~= size(A,2)
-                error('A must be a square matrix')
-            else
-                det_A = inf;% Write your code here, note when you call p2 function inside your function, you need to call it like this: hw00.p2(B), where B is a matrix.
+               error('A must be a square matrix')
+            elseif size(A,1)==1
+               det_A = A;
+            elseif size(A,1)==2
+                det_A = det(A);
+            else 
+                 det_A = 0;
+                for i=1:n
+                    B = A(2:n, [1:i-1, i+1:n]);
+                    det_A = det_A + (-1)^(i + 1)*A(1,i)*p2(B);
+                end
+        
             end
         end
 
         function p3()
-            % This function should have a run time about 1 second.
-            % :return: no returns
-
-            % Write your code here
+            tic;
+            duration = 1.0;
+            while toc < duration
+        
+            end
+            elapsedTime = toc;
+            fprintf('Elapsed time reported by function %.2f seconds.\n', elapsedTime);
         end
     end
 end
